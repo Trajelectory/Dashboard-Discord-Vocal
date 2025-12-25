@@ -250,7 +250,3 @@ Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de 
 ⭐ Si ce projet vous est utile, n'oubliez pas de mettre une étoile sur GitHub !
 
 <p align="center">Made with ❤️ for the Discord community</p>
-# Base de données (si vous en ajoutez une plus tard)
-*.db
-*.sqlite
-*.sqlite3
