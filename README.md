@@ -1,252 +1,269 @@
 # 🎤 Discord Voice Monitor
 <img width="1906" height="914" alt="image" src="https://github.com/user-attachments/assets/64c0c46e-e609-4cb1-9c70-5e61838ee914" />
+<img width="1920" height="1455" alt="FireShot Capture 004 - Statistiques Vocales Discord - localhost" src="https://github.com/user-attachments/assets/4fbf81bd-082b-4681-bdd5-49adcd13ff8a" />
 
-[![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![Discord.py](https://img.shields.io/badge/discord.py-2.0+-blue.svg)](https://github.com/Rapptz/discord.py)
-[![Flask](https://img.shields.io/badge/flask-3.0+-green.svg)](https://flask.palletsprojects.com/)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+Discord Voice Monitor est un système complet de monitoring qui surveille l'activité des utilisateurs dans les salons vocaux Discord. Il expose ces données via une interface web moderne avec mises à jour en temps réel (WebSocket) et une API REST complète.
 
-Un bot Discord avec interface web en temps réel pour surveiller l'activité des salons vocaux. Visualisez qui est en vocal, qui partage son écran, qui active sa webcam, et suivez l'historique des connexions en temps réel !
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Flask](https://img.shields.io/badge/Flask-2.0+-green.svg)](https://flask.palletsprojects.com/)
+[![Discord.py](https://img.shields.io/badge/Discord.py-2.0+-purple.svg)](https://discordpy.readthedocs.io/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-![Discord Voice Monitor](https://via.placeholder.com/800x400/667eea/ffffff?text=Discord+Voice+Monitor)
+### Ce que fait l'application
+
+- 👥 Surveille les connexions/déconnexions des membres
+- 🎤 Détecte les changements d'état (mute, deafen, webcam, streaming)
+- 📊 Enregistre des statistiques détaillées (durée des sessions, records)
+- 🌐 Fournit une interface web en temps réel
+- 🔌 Expose une API REST complète
+- 💾 Persiste les données dans SQLite
 
 ## ✨ Fonctionnalités
 
-### 🎯 Surveillance en temps réel
-- 🔴 **Monitoring instantané** des salons vocaux Discord
-- 📹 **Détection de webcam** avec badge et style visuel dédié
-- 📡 **Détection de partage d'écran** avec effet LIVE animé
-- 🔇 **Indicateurs audio** (mute/deaf) par utilisateur et serveur
-- 🟢 **Statut Discord** en temps réel (en ligne, absent, ne pas déranger)
+### Composants principaux
 
-### 🌐 Interface web moderne
-- ⚡ **Mises à jour instantanées** via WebSocket (pas de rafraîchissement)
-- 🎨 **Design élégant** avec animations fluides
-- 📱 **Responsive** et adapté mobile
-- 🌙 **Prêt pour mode sombre** (facilement personnalisable)
+| Fichier | Rôle |
+|---------|------|
+| `main.py` | Point d'entrée, lance le bot et le serveur web |
+| `discord_bot.py` | Bot Discord, surveillance des salons vocaux |
+| `web_server.py` | Serveur Flask avec WebSocket et API REST |
+| `activity_logger.py` | Enregistrement de tous les événements |
+| `stats_tracker.py` | Statistiques avec persistance SQLite |
+| `health_monitor.py` | Monitoring de la santé du système |
+| `test_data.py` | Données de test pour le mode démo |
+| `config.py` | Configuration (tokens, IDs, paramètres) |
 
-### 📊 Monitoring système
-- 💚 **Health check** en temps réel du bot et de la connexion
-- 📈 **Statistiques** (uptime, clients connectés, ping)
-- 🔍 **Panel de monitoring** rétractable
+### Monitoring en temps réel
 
-### 📋 Historique d'activité
-- 🟢 **Logs de connexion** (qui rejoint quel salon)
-- 🔴 **Logs de déconnexion** (qui quitte quel salon)
-- 🟠 **Logs de déplacement** (changements de salon)
-- 💾 **Historique persistant** (200 derniers événements)
+- **Détection des événements**
+  - Connexion/Déconnexion d'un salon vocal
+  - Changement de salon (move)
+  - Activation/Désactivation du micro
+  - Activation/Désactivation du casque (deafen)
+  - Démarrage/Arrêt du streaming
+  - Activation/Désactivation de la webcam
+  - Mute/Unmute par le serveur
 
-### Panel de logs
-```
-📋 Activité récente
-├─ 15:23:45 Alice a rejoint 🎧 Salon Principal
-├─ 15:25:12 Bob a rejoint 🎮 Gaming
-├─ 15:27:30 Alice est passé de 🎧 Salon Principal à 🎮 Gaming
-└─ 15:30:00 Bob a quitté 🎮 Gaming
-```
+### Profils utilisateurs complets
+
+Pour chaque membre en vocal, récupération de :
+- Informations d'identité (username, discriminator, display name)
+- Avatars (serveur, profil, par défaut)
+- Statut (online, idle, dnd, offline) sur desktop/mobile/web
+- Activités en cours (Spotify, jeux, streaming personnalisé)
+- Rôles et permissions
+- Dates importantes (création compte, arrivée serveur, nitro boost)
+- État vocal complet
+
+### Statistiques avancées
+
+- **Sessions vocales**
+  - Durée totale par jour/semaine/mois
+  - Nombre de sessions
+  - Durée moyenne des sessions
+  - Canaux visités
+
+- **Records**
+  - Session la plus longue du jour
+  - Session la plus longue de la semaine
+  - Session la plus longue du mois
+  - Record absolu (all-time)
+
+- **Classements**
+  - Top utilisateurs du jour
+  - Top utilisateurs de la semaine
+  - Sessions en cours avec durée actuelle
+
+### Interface Web
+
+- Dashboard moderne et responsive
+- Mises à jour en temps réel via WebSocket
+- Historique des logs d'activité
+- Page de statistiques détaillées
+- Documentation API intégrée
 
 ## 🚀 Installation
 
 ### Prérequis
 
 - Python 3.8 ou supérieur
-- Un compte Discord
-- Un serveur Discord avec des salons vocaux
+- Un bot Discord configuré ([Guide Discord Developer Portal](https://discord.com/developers/applications))
+- Les tokens et IDs nécessaires
 
-### 1. Cloner le projet
+### Étapes d'installation
 
+1. **Cloner le repository**
 ```bash
 git clone https://github.com/Trajelectory/Dashboard-Discord-Vocal.git
 cd discord-voice-monitor
 ```
 
-### 2. Installer les dépendances
-
+2. **Installer les dépendances**
 ```bash
 pip install -r requirements.txt
 ```
 
-**Ou manuellement :**
-```bash
-pip install discord.py flask flask-socketio
+Dépendances principales :
+```
+discord.py>=2.0.0
+flask>=2.0.0
+flask-socketio>=5.0.0
+python-socketio>=5.0.0
 ```
 
-### 3. Créer un bot Discord
+3. **Créer le fichier de configuration**
 
-1. Allez sur https://discord.com/developers/applications
-2. Créez une nouvelle application
-3. Dans l'onglet **"Bot"** :
-   - Créez un bot
-   - Copiez le token
-   - Activez les intents suivants :
-     - ✅ `PRESENCE INTENT`
-     - ✅ `SERVER MEMBERS INTENT`
-     - ✅ `MESSAGE CONTENT INTENT` (optionnel)
-4. Dans l'onglet **"OAuth2 > URL Generator"** :
-   - Cochez `bot`
-   - Permissions : `View Channels`, `Read Messages/View Channels`
-   - Copiez l'URL générée et invitez le bot sur votre serveur
-
-### 4. Configuration
-
-Éditez le fichier `config.py` :
-
+Créez un fichier `config.py` :
 ```python
-# Token de votre bot Discord
-DISCORD_TOKEN = "votre_token_ici"
+# Discord Configuration
+DISCORD_TOKEN = "votre_token_discord_bot"
+VOICE_CHANNEL_IDS = [123456789, 987654321]  # IDs des salons à surveiller
 
-# IDs des salons vocaux à surveiller (3 maximum recommandé)
-VOICE_CHANNEL_IDS = [123456789, 987654321, 456789123]
-
-# Configuration serveur web
-FLASK_HOST = '0.0.0.0'
+# Flask Configuration
+FLASK_HOST = "0.0.0.0"
 FLASK_PORT = 5000
+SECRET_KEY = "votre_clé_secrète_flask"
 
-# Mode test (True = données fictives, False = vraies données)
+# Database
+DATABASE_PATH = "discord_stats.db"
+
+# Mode de test (utilise des données fictives)
 TEST_MODE = False
 ```
 
-**Pour obtenir les IDs des salons :**
-1. Activez le mode développeur dans Discord (Paramètres > Avancé)
-2. Clic droit sur un salon vocal > Copier l'identifiant
-
-## 🎮 Utilisation
-
-### Lancer le bot
-
+4. **Lancer l'application**
 ```bash
 python main.py
 ```
 
-Vous verrez :
+L'application sera accessible sur `http://localhost:5000`
+
+## ⚙️ Configuration
+
+### Obtenir le token Discord
+
+1. Allez sur [Discord Developer Portal](https://discord.com/developers/applications)
+2. Créez une nouvelle application
+3. Dans l'onglet "Bot", créez un bot et copiez le token
+4. Activez les **Privileged Gateway Intents** :
+   - ✅ Presence Intent
+   - ✅ Server Members Intent
+   - ✅ Message Content Intent (optionnel)
+
+### Trouver les IDs des salons vocaux
+
+1. Activez le mode développeur Discord (Paramètres → Avancé → Mode développeur)
+2. Clic droit sur un salon vocal → Copier l'identifiant
+3. Ajoutez l'ID dans `VOICE_CHANNEL_IDS`
+
+### Inviter le bot sur votre serveur
+
+Utilisez cette URL (remplacez `CLIENT_ID` par l'ID de votre application) :
 ```
-🌐 Interface web disponible sur http://localhost:5000
-🤖 Démarrage du bot Discord...
-✅ Bot connecté en tant que VotreBot#1234
-```
-
-### Accéder à l'interface
-
-Ouvrez votre navigateur sur : **http://localhost:5000**
-
-L'interface se met à jour automatiquement en temps réel !
-
-### Accéder depuis un autre appareil
-
-Si vous êtes sur le même réseau local :
-```
-http://VOTRE_IP_LOCAL:5000
-```
-
-Exemple : `http://192.168.1.48:5000`
-
-## 📁 Structure du projet
-
-```
-discord-voice-monitor/
-├── main.py                  # Point d'entrée principal
-├── config.py                # Configuration (token, IDs, paramètres)
-├── discord_bot.py           # Logique du bot Discord
-├── web_server.py            # Serveur Flask + WebSocket
-├── health_monitor.py        # Système de monitoring
-├── activity_logger.py       # Gestion des logs d'activité
-├── test_data.py             # Données de test (mode démo)
-├── templates/
-│   └── index.html          # Template HTML
-├── static/
-│   ├── css/
-│   │   └── style.css       # Styles CSS
-│   └── js/
-│       └── app.js          # JavaScript client
-├── requirements.txt         # Dépendances Python
-├── README.md               # Documentation
-├── CHANGELOG.md            # Historique des versions
-└── LICENSE                 # Licence MIT
+https://discord.com/api/oauth2/authorize?client_id=CLIENT_ID&permissions=2147516416&scope=bot
 ```
 
-## 🧪 Mode Test
+Permissions nécessaires :
+- View Channels
+- Connect (aux vocaux)
+- Read Message History
 
-Pour tester l'interface sans connexion Discord, activez le mode test dans `config.py` :
+## 📖 Utilisation
 
+### Interface Web
+
+Accédez à `http://localhost:5000` pour :
+- Voir en temps réel qui est connecté
+- Consulter l'historique des événements
+- Accéder aux statistiques détaillées
+
+### Mode démo
+
+Pour tester sans connexion Discord, activez le mode test :
 ```python
+# config.py
 TEST_MODE = True
 ```
+Le système utilisera alors des données fictives.
 
-Des utilisateurs fictifs avec différentes activités (webcam, stream, mute) s'afficheront automatiquement.
+## 📊 Statistiques
 
-## ⚙️ Configuration avancée
+### Données trackées
 
-### Personnaliser le port du serveur web
+Le système enregistre en SQLite :
 
-Dans `config.py` :
+- **Sessions complètes**
+  - Membre, heure de début/fin, durée
+  - Canaux visités
+  - État actif/terminé
 
-```python
-FLASK_PORT = 8080  # Changez le port si nécessaire
+- **Records**
+  - Longest session today/week/month/ever
+  - Détenteur du record
+  - Date du record
+
+### Accès aux statistiques
+
+**API** : `/stats` (page web) ou WebSocket event `get_stats`
+
+**Exemples de données** :
+```json
+{
+  "all_stats": {
+    "Alice": {
+      "total_time": 7200,
+      "session_count": 3,
+      "average_session": 2400,
+      "channels_visited": ["Salon 1", "Salon 2"]
+    }
+  },
+  "top_users": [
+    { "member": "Alice", "total_time": 7200 },
+    { "member": "Bob", "total_time": 3600 }
+  ],
+  "records": {
+    "longest_session_today": {
+      "member": "Alice",
+      "duration": 5400,
+      "date": "2025-01-01T10:00:00"
+    }
+  }
+}
 ```
 
-### Ajouter plus de salons vocaux
+## 🛠️ Technologies
 
-Dans `config.py`, ajoutez simplement les IDs :
+- **Backend**
+  - Python 3.8+
+  - Discord.py (Bot Discord)
+  - Flask (Serveur web)
+  - Flask-SocketIO (WebSocket temps réel)
+  - SQLite (Base de données)
 
-```python
-VOICE_CHANNEL_IDS = [111111, 222222, 333333, 444444, 555555]
-```
-
-### Augmenter l'historique des logs
-
-Dans `activity_logger.py` :
-
-```python
-activity_logger = ActivityLogger(max_logs=500)  # Au lieu de 200
-```
-
-## 🔌 API Endpoints
-
-Le serveur expose plusieurs endpoints REST :
-
-- `GET /` - Interface web principale
-- `GET /health` - Health check (retourne 200 si healthy, 503 sinon)
-- `GET /api/status` - Status détaillé du système (JSON)
-- `GET /api/logs` - Historique complet des logs (JSON)
-
-### Exemple d'utilisation
-
-```bash
-# Health check
-curl http://localhost:5000/health
-
-# Récupérer les logs
-curl http://localhost:5000/api/logs
-```
-
-## 🛠️ Technologies utilisées
-
-- **[Discord.py](https://discordpy.readthedocs.io/)** v2.0+ - Bibliothèque Discord pour Python
-- **[Flask](https://flask.palletsprojects.com/)** v3.0+ - Framework web
-- **[Flask-SocketIO](https://flask-socketio.readthedocs.io/)** - WebSocket pour mises à jour temps réel
-- **HTML5/CSS3/JavaScript** - Interface utilisateur moderne
+- **Frontend**
+  - HTML5 / CSS3 / JavaScript
+  - Socket.IO Client (WebSocket)
 
 ## 🤝 Contribution
 
-Les contributions sont les bienvenues ! N'hésitez pas à :
+Les contributions sont les bienvenues ! 
 
-1. Fork le projet
-2. Créer une branche pour votre fonctionnalité (`git checkout -b feature/AmazingFeature`)
-3. Commit vos changements (`git commit -m 'Add some AmazingFeature'`)
-4. Push vers la branche (`git push origin feature/AmazingFeature`)
-5. Ouvrir une Pull Request
+## 📝 License
 
-## 📝 Licence
-
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 
 ## 🙏 Remerciements
 
-- [Discord.py](https://github.com/Rapptz/discord.py) pour la bibliothèque Discord
-- [Flask](https://github.com/pallets/flask) pour le framework web
-- [Socket.IO](https://socket.io/) pour les WebSockets
-- La communauté Discord pour l'inspiration
+- [Discord.py](https://github.com/Rapptz/discord.py) pour l'excellent wrapper Discord
+- [Flask](https://flask.palletsprojects.com/) pour le framework web
+- [Socket.IO](https://socket.io/) pour le WebSocket temps réel
 
-⭐ Si ce projet vous est utile, n'oubliez pas de mettre une étoile sur GitHub !
+---
 
-<p align="center">Made with ❤️ for the Discord community</p>
+<p align="center">
+  Développé avec ❤️ pour la communauté Discord
+</p>
+
+<p align="center">
+  <a href="#-table-des-matières">Retour en haut ⬆️</a>
+</p>
