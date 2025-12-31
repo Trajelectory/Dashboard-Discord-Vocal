@@ -134,14 +134,17 @@ function renderChannels(voiceData) {
 function toggleHealthPanel() {
     const panel = document.getElementById('healthPanel');
     const content = document.getElementById('healthContent');
+    const toggle = document.querySelector('.health-toggle');
     healthPanelCollapsed = !healthPanelCollapsed;
     
     if (healthPanelCollapsed) {
         panel.classList.add('collapsed');
         content.style.display = 'none';
+        toggle.textContent = '📊'; // Seulement l'emoji
     } else {
         panel.classList.remove('collapsed');
         content.style.display = 'block';
+        toggle.textContent = '📊 Status'; // Texte complet
     }
 }
 
@@ -238,14 +241,17 @@ setInterval(() => {
 function toggleLogsPanel() {
     const panel = document.getElementById('logsPanel');
     const content = document.getElementById('logsContent');
+    const toggle = document.querySelector('.logs-toggle');
     logsPanelCollapsed = !logsPanelCollapsed;
     
     if (logsPanelCollapsed) {
         panel.classList.add('collapsed');
         content.style.display = 'none';
+        toggle.textContent = '📋'; // Seulement l'emoji
     } else {
         panel.classList.remove('collapsed');
         content.style.display = 'block';
+        toggle.textContent = '📋 Activité récente'; // Texte complet
     }
 }
 
@@ -260,6 +266,26 @@ function addLogEntry(log) {
         text = `<span class="log-time">${log.time_str}</span><span class="log-member">${log.member}</span> <span class="log-action">a quitté</span> <span class="log-channel">${log.channel}</span>`;
     } else if (log.type === 'move') {
         text = `<span class="log-time">${log.time_str}</span><span class="log-member">${log.member}</span> <span class="log-action">est passé de</span> <span class="log-channel">${log.from_channel}</span> <span class="log-action">à</span> <span class="log-channel">${log.to_channel}</span>`;
+    } else if (log.type === 'mute') {
+        text = `<span class="log-time">${log.time_str}</span><span class="log-member">${log.member}</span> <span class="log-action">s'est muté 🔇</span> <span class="log-channel">${log.channel}</span>`;
+    } else if (log.type === 'unmute') {
+        text = `<span class="log-time">${log.time_str}</span><span class="log-member">${log.member}</span> <span class="log-action">s'est démuté 🔊</span> <span class="log-channel">${log.channel}</span>`;
+    } else if (log.type === 'deafen') {
+        text = `<span class="log-time">${log.time_str}</span><span class="log-member">${log.member}</span> <span class="log-action">s'est mis en sourdine 🔕</span> <span class="log-channel">${log.channel}</span>`;
+    } else if (log.type === 'undeafen') {
+        text = `<span class="log-time">${log.time_str}</span><span class="log-member">${log.member}</span> <span class="log-action">s'est mis en écoute 🔔</span> <span class="log-channel">${log.channel}</span>`;
+    } else if (log.type === 'stream_start') {
+        text = `<span class="log-time">${log.time_str}</span><span class="log-member">${log.member}</span> <span class="log-action">partage son écran 📡</span> <span class="log-channel">${log.channel}</span>`;
+    } else if (log.type === 'stream_stop') {
+        text = `<span class="log-time">${log.time_str}</span><span class="log-member">${log.member}</span> <span class="log-action">a arrêté le partage d'écran</span> <span class="log-channel">${log.channel}</span>`;
+    } else if (log.type === 'webcam_on') {
+        text = `<span class="log-time">${log.time_str}</span><span class="log-member">${log.member}</span> <span class="log-action">a activé sa webcam 📹</span> <span class="log-channel">${log.channel}</span>`;
+    } else if (log.type === 'webcam_off') {
+        text = `<span class="log-time">${log.time_str}</span><span class="log-member">${log.member}</span> <span class="log-action">a désactivé sa webcam</span> <span class="log-channel">${log.channel}</span>`;
+    } else if (log.type === 'server_mute') {
+        text = `<span class="log-time">${log.time_str}</span><span class="log-member">${log.member}</span> <span class="log-action">a été muté par le serveur 🔇</span> <span class="log-channel">${log.channel}</span>`;
+    } else if (log.type === 'server_unmute') {
+        text = `<span class="log-time">${log.time_str}</span><span class="log-member">${log.member}</span> <span class="log-action">a été démuté par le serveur 🔊</span> <span class="log-channel">${log.channel}</span>`;
     }
     
     entry.innerHTML = text;

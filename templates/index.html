@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>🎤 Surveillance des Salons Vocaux</h1>
+        <h1>🎤 Surveillance des Salons Vocaux <a href="/stats">📊</a></h1>
         
         <div class="status-indicator-top">
             <span class="status-dot connected" id="statusDot"></span>
@@ -21,10 +21,9 @@
     
     <!-- Health Monitor Panel -->
     <div class="health-panel" id="healthPanel">
-        <div class="health-toggle" onclick="toggleHealthPanel()">📊</div>
+        <div class="health-toggle" onclick="toggleHealthPanel()">📊 Status</div>
         <div id="healthContent">
             <div class="health-item">
-                <span class="health-label">Status:</span>
                 <span class="health-value">
                     <span class="health-status healthy" id="overallStatus"></span>
                     <span id="overallStatusText">Checking...</span>
@@ -52,12 +51,8 @@
     
     <!-- Logs Panel -->
     <div class="logs-panel" id="logsPanel">
-        <div class="logs-toggle" onclick="toggleLogsPanel()">📋 </div>
+        <div class="logs-toggle" onclick="toggleLogsPanel()">📋 Activité récente</div>
         <div id="logsContent" style="display: none;">
-            <div class="logs-header">
-                <span class="logs-title">Activité récente</span>
-                <span class="logs-toggle" onclick="toggleLogsPanel()">_</span>
-            </div>
             <div class="logs-content" id="logsEntries"></div>
             <div class="logs-clear" onclick="clearLogs()">Effacer l'historique</div>
         </div>

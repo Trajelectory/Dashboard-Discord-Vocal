@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - Discord Voice Monitor</title>
+    <link rel="stylesheet" href="/static/css/api-doc.css">
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Retour à l'interface</a>
+        
+        <h1>📚 API Documentation</h1>
+        <p class="subtitle">Documentation des endpoints REST de Discord Voice Monitor</p>
+        
+        <!-- Base URL -->
+        <div class="endpoint">
+            <h2>Base URL</h2>
+            <div class="url">{{ base_url }}</div>
+        </div>
+        
+        <!-- /api/bot -->
+        <div class="endpoint">
+            <h2>
+                <span class="method get">GET</span>
+                /api/bot
+            </h2>
+            <p class="description">Retourne toutes les données brutes que le bot voit dans les salons vocaux.</p>
+            
+            <div class="example-title">Exemple de requête :</div>
+            <div class="example">curl {{ base_url }}/api/bot</div>
+            
+            <div class="example-title">Réponse :</div>
+            <div class="example">{
+  "success": true,
+  "data": {
+    "🎧 Salon Principal": {
+      "members": [...],
+      "count": 3
+    }
+  },
+  "metadata": {
+    "total_channels": 3,
+    "total_members": 5,
+    "timestamp": "2024-12-25T15:30:00"
+  }
+}</div>
+            
+            <button class="try-btn" onclick="tryEndpoint('/api/bot', 'response-bot')">Essayer</button>
+            <div id="response-bot" class="response" style="display:none;"></div>
+        </div>
+        
+        <!-- /api/bot/channels -->
+        <div class="endpoint">
+            <h2>
+                <span class="method get">GET</span>
+                /api/bot/channels
+            </h2>
+            <p class="description">Liste simplifiée des salons vocaux surveillés avec le nombre de membres.</p>
+            
+            <div class="example-title">Exemple de requête :</div>
+            <div class="example">curl {{ base_url }}/api/bot/channels</div>
+            
+            <div class="example-title">Réponse :</div>
+            <div class="example">{
+  "success": true,
+  "channels": [
+    {
+      "name": "🎧 Salon Principal",
+      "member_count": 3,
+      "members": ["Alice", "Bob", "Charlie"]
+    }
+  ],
+  "total": 3
+}</div>
+            
+            <button class="try-btn" onclick="tryEndpoint('/api/bot/channels', 'response-channels')">Essayer</button>
+            <div id="response-channels" class="response" style="display:none;"></div>
+        </div>
+        
+        <!-- /api/bot/members -->
+        <div class="endpoint">
+            <h2>
+                <span class="method get">GET</span>
+                /api/bot/members
+            </h2>
+            <p class="description">Liste de tous les membres actuellement en vocal (tous salons confondus).</p>
+            
+            <div class="params">
+                <h4>Paramètres de requête (optionnels) :</h4>
+                <div class="param"><strong>?channel=</strong> Nom du salon pour filtrer</div>
+            </div>
+            
+            <div class="example-title">Exemples de requêtes :</div>
+            <div class="example">curl {{ base_url }}/api/bot/members
+curl "{{ base_url }}/api/bot/members?channel=🎧 Salon Principal"</div>
+            
+            <button class="try-btn" onclick="tryEndpoint('/api/bot/members', 'response-members')">Essayer</button>
+            <div id="response-members" class="response" style="display:none;"></div>
+        </div>
+        
+        <!-- /api/bot/member/<n> -->
+        <div class="endpoint">
+            <h2>
+                <span class="method get">GET</span>
+                /api/bot/member/&lt;name&gt;
+            </h2>
+            <p class="description"><strong>🆕 ENRICHI !</strong> Profil Discord complet d'un membre spécifique (par son pseudo Discord ou display name).</p>
+            
+            <div class="params">
+                <h4>Informations retournées :</h4>
+                <div class="param"><strong>Identité :</strong> username, discriminator, display name, nickname, ID, mention</div>
+                <div class="param"><strong>Avatars :</strong> avatar principal, avatar serveur, avatar par défaut, version statique</div>
+                <div class="param"><strong>Statuts :</strong> statut global, desktop, mobile, web (séparés)</div>
+                <div class="param"><strong>Activités :</strong> jeux joués, Spotify (titre, artiste, album, pochette), streaming, statut personnalisé</div>
+                <div class="param"><strong>Vocal :</strong> salon actuel, mute, deaf, streaming, webcam, suppress</div>
+                <div class="param"><strong>Rôles :</strong> liste complète, rôle le plus élevé, couleur, positions</div>
+                <div class="param"><strong>Dates :</strong> création compte, arrivée serveur, boost Nitro</div>
+                <div class="param"><strong>Badges :</strong> Early Supporter, Verified Developer, etc.</div>
+                <div class="param"><strong>Permissions :</strong> admin, modération, gestion serveur, etc.</div>
+                <div class="param"><strong>Serveur :</strong> nom, ID, icône</div>
+            </div>
+            
+            <div class="example-title">Exemple de requête :</div>
+            <div class="example">curl {{ base_url }}/api/bot/member/Alice</div>
+            
+            <div class="example-title">Exemple de réponse (partiel) :</div>
+            <div class="example">{
+  "success": true,
+  "member": {
+    "id": "123456789012345678",
+    "username": "alice",
+    "display_name": "Alice",
+    "avatar_url": "https://cdn.discordapp.com/avatars/...",
+    "status": "online",
+    "spotify": {
+      "title": "Bohemian Rhapsody",
+      "artist": "Queen",
+      "album": "A Night at the Opera",
+      "album_cover_url": "https://i.scdn.co/image/..."
+    },
+    "voice": {
+      "channel": "🎧 Salon Principal",
+      "muted": false,
+      "video": true
+    },
+    "roles": [...],
+    "created_at": "2018-03-15T12:30:00",
+    ...
+  }
+}</div>
+            
+            <p class="description" style="margin-top: 15px; color: #ef4444;">
+                ⚠️ Retourne une erreur 404 si le membre n'est pas trouvé en vocal.
+            </p>
+            
+            <button class="try-btn" onclick="tryEndpoint('/api/bot/member/Alice', 'response-member')">Essayer (Alice)</button>
+            <div id="response-member" class="response" style="display:none;"></div>
+        </div>
+        
+        <!-- /api/bot/stats -->
+        <div class="endpoint">
+            <h2>
+                <span class="method get">GET</span>
+                /api/bot/stats
+            </h2>
+            <p class="description">Statistiques agrégées : nombre total de membres, streaming, webcam, muted, etc.</p>
+            
+            <div class="example-title">Exemple de requête :</div>
+            <div class="example">curl {{ base_url }}/api/bot/stats</div>
+            
+            <div class="example-title">Réponse :</div>
+            <div class="example">{
+  "success": true,
+  "stats": {
+    "total_channels": 3,
+    "total_members": 5,
+    "streaming": 1,
+    "webcam_active": 2,
+    "muted": 1,
+    "deafened": 0,
+    "status_breakdown": {
+      "online": 4,
+      "idle": 1,
+      "dnd": 0,
+      "offline": 0
+    }
+  }
+}</div>
+            
+            <button class="try-btn" onclick="tryEndpoint('/api/bot/stats', 'response-stats')">Essayer</button>
+            <div id="response-stats" class="response" style="display:none;"></div>
+        </div>
+        
+        <!-- /api/status -->
+        <div class="endpoint">
+            <h2>
+                <span class="method get">GET</span>
+                /api/status
+            </h2>
+            <p class="description">Statut détaillé du système (bot, serveur web, uptime, erreurs, etc.).</p>
+            
+            <div class="example-title">Exemple de requête :</div>
+            <div class="example">curl {{ base_url }}/api/status</div>
+            
+            <button class="try-btn" onclick="tryEndpoint('/api/status', 'response-status')">Essayer</button>
+            <div id="response-status" class="response" style="display:none;"></div>
+        </div>
+        
+        <!-- /api/logs -->
+        <div class="endpoint">
+            <h2>
+                <span class="method get">GET</span>
+                /api/logs
+            </h2>
+            <p class="description">Historique des événements vocaux (connexions, déconnexions, déplacements).</p>
+            
+            <div class="params">
+                <h4>Paramètres de requête (optionnels) :</h4>
+                <div class="param"><strong>?limit=</strong> Nombre de logs à retourner (ex: ?limit=10)</div>
+                <div class="param"><strong>?type=</strong> Filtrer par type: join, leave, move</div>
+            </div>
+            
+            <div class="example-title">Exemples de requêtes :</div>
+            <div class="example">curl {{ base_url }}/api/logs
+curl "{{ base_url }}/api/logs?limit=10"
+curl "{{ base_url }}/api/logs?type=join"</div>
+            
+            <div class="example-title">Réponse :</div>
+            <div class="example">{
+  "success": true,
+  "logs": [
+    {
+      "type": "join",
+      "member": "Alice",
+      "channel": "🎧 Salon Principal",
+      "timestamp": "2024-12-25T15:30:00",
+      "time_str": "15:30:00"
+    }
+  ],
+  "total": 1,
+  "filters": {
+    "type": null,
+    "limit": null
+  }
+}</div>
+            
+            <button class="try-btn" onclick="tryEndpoint('/api/logs', 'response-logs')">Essayer</button>
+            <div id="response-logs" class="response" style="display:none;"></div>
+        </div>
+        
+        <!-- /health -->
+        <div class="endpoint">
+            <h2>
+                <span class="method get">GET</span>
+                /health
+            </h2>
+            <p class="description">Health check pour monitoring externe. Retourne HTTP 200 si tout va bien, 503 sinon.</p>
+            
+            <div class="example-title">Exemple de requête :</div>
+            <div class="example">curl {{ base_url }}/health</div>
+            
+            <button class="try-btn" onclick="tryEndpoint('/health', 'response-health')">Essayer</button>
+            <div id="response-health" class="response" style="display:none;"></div>
+        </div>
+        
+        <!-- Section Exemples d'utilisation -->
+        <div class="endpoint" style="border-left-color: #22c55e;">
+            <h2>💡 Exemples d'utilisation</h2>
+            
+            <h3 style="margin-top: 20px; color: #333;">Python</h3>
+            <div class="example">import requests
+
+# Récupérer le profil complet d'un membre
+response = requests.get('{{ base_url }}/api/bot/member/Alice')
+if response.status_code == 200:
+    member = response.json()['member']
+    print(f"ID: {member['id']}")
+    print(f"Status: {member['status']}")
+    print(f"Roles: {[r['name'] for r in member['roles']]}")
+    
+    if member['spotify']:
+        print(f"Écoute: {member['spotify']['title']} - {member['spotify']['artist']}")
+    
+    if member['activities']:
+        for activity in member['activities']:
+            print(f"Activité: {activity['name']} ({activity['type']})")
+
+# Récupérer les stats
+stats = requests.get('{{ base_url }}/api/bot/stats').json()
+print(f"Total membres: {stats['stats']['total_members']}")</div>
+
+            <h3 style="margin-top: 20px; color: #333;">JavaScript</h3>
+            <div class="example">// Récupérer le profil d'un membre
+fetch('{{ base_url }}/api/bot/member/Alice')
+  .then(res => res.json())
+  .then(data => {
+    const member = data.member;
+    console.log('Pseudo:', member.display_name);
+    console.log('Status:', member.status);
+    
+    if (member.spotify) {
+      console.log('Écoute:', member.spotify.title);
+    }
+    
+    console.log('Rôles:', member.roles.map(r => r.name));
+  });
+
+// Récupérer les membres avec filtre
+fetch('{{ base_url }}/api/bot/members?channel=🎧 Salon Principal')
+  .then(res => res.json())
+  .then(data => console.log('Membres:', data.members));</div>
+
+            <h3 style="margin-top: 20px; color: #333;">Bash</h3>
+            <div class="example"># Récupérer et formatter le JSON
+curl -s {{ base_url }}/api/bot/member/Alice | jq .
+
+# Extraire juste le statut
+curl -s {{ base_url }}/api/bot/member/Alice | jq -r '.member.status'
+
+# Lister les rôles
+curl -s {{ base_url }}/api/bot/member/Alice | jq -r '.member.roles[].name'
+
+# Vérifier si quelqu'un écoute Spotify
+curl -s {{ base_url }}/api/bot/member/Alice | jq '.member.spotify'</div>
+        </div>
+    </div>
+    
+    <script src="/static/js/api-doc.js"></script>
+</body>
+</html>
