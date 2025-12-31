@@ -95,7 +95,7 @@ Pour chaque membre en vocal, récupération de :
 1. **Cloner le repository**
 ```bash
 git clone https://github.com/Trajelectory/Dashboard-Discord-Vocal.git
-cd discord-voice-monitor
+cd Dashboard-Discord-Vocal
 ```
 
 2. **Installer les dépendances**
