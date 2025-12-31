@@ -9,6 +9,7 @@ VOICE_CHANNEL_IDS = [
 FLASK_HOST = '0.0.0.0'
 FLASK_PORT = 5000
 SECRET_KEY = 'discord-voice-monitor-secret'
-
+DATABASE_PATH = 'voice_stats.db'
 # Mode test (True = données fictives, False = vraies données Discord)
+
 TEST_MODE = False
